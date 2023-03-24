@@ -1,6 +1,8 @@
 from uuid import uuid4
 from django.db import models
 
+from users.models import User
+
 TYPE_CHOICES = (
     ("normal", "normal"),
     ("fire", "fire"),
@@ -37,5 +39,5 @@ class Pokemons(models.Model):
     number = models.IntegerField()
     type01 = models.CharField(max_length=36, choices=TYPE_CHOICES)
     type02 = models.CharField(max_length=36, null=True, choices=TYPE_CHOICES)
-    # userId = models.CharField(max_length=36)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pokemons')
     price = models.IntegerField(default=0)
