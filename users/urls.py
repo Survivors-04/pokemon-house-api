@@ -1,9 +1,11 @@
-from . import views
 from django.urls import path
+from rest_framework_simplejwt import views as jwt_views
+from .views import UserListCreateView, UserDetailView, UserPokemonsView
 
 
 urlpatterns = [
-    path("", views.UserListCreateView.as_view()),
-    path("<uuid:pk>/", views.UserDetailView.as_view()),
-    path("<uuid:user_id>/pokemons", views.UserPokemonsView.as_view()),
+    path("", UserListCreateView.as_view()),
+    path("<uuid:pk>/", UserDetailView.as_view()),
+    path("<uuid:user_id>/pokemons", UserPokemonsView.as_view()),
+    path("login", jwt_views.TokenObtainPairView.as_view()),
 ]
