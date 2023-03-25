@@ -1,10 +1,11 @@
-from rest_framework.serializers import ModelSerializer
-from pokemons import serializers
+from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField
 
 from users.models import User
 
 
 class UserSerializer(ModelSerializer):
+    pokemons = PrimaryKeyRelatedField(many=True, read_only=True)
+
     class Meta:
         model = User
 
