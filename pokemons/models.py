@@ -35,7 +35,7 @@ RARITY_CHOICES = (
 
 class Pokemons(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    name = models.CharField(max_length=36, unique=True)
+    name = models.CharField(max_length=36)
     rarity = models.CharField(max_length=36, choices=RARITY_CHOICES)
     pokedex = models.IntegerField()
     type_1 = models.CharField(max_length=36, choices=TYPE_CHOICES)
