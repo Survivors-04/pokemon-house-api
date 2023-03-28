@@ -14,6 +14,6 @@ urlpatterns = [
     path("<uuid:pk>/", PokemonDetailView.as_view()),
     path("boosters/", PokemonBoosterListCreateAPIView.as_view()),
     path("boosters/<uuid:booster_id>/", get_booster),
-    path("users", PokemonUserListCreateView.as_view()),
+    path("users/<uuid:user_id>", PokemonUserListCreateView.as_view()),
     path("<uuid:pk>/users", PokemonUserDetailView.as_view()),
 ]

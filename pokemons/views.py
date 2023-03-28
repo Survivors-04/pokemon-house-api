@@ -38,13 +38,20 @@ class PokemonDetailView(RetrieveAPIView):
     queryset = Pokemons.objects.all()
 
 
-class PokemonUserListCreateView(ListCreateAPIView):
+class PokemonUserListCreateView(APIView):
     authentication_classes = [JWTAuthentication]
-    serializer_class = PokemonUserSerializer
-    queryset = PokemonUser.objects.all()
 
-    def create(self, request, *args, **kwargs):
-        user = self.request.user
+    def get(self, request, user_id):
+        user = get_object_or_404(User, id=user_id)
+
+        pokemons = PokemonUser.objects.filter(user=user)
+
+        serializer = PokemonUserSerializer(pokemons, many=True)
+
+        return Response(serializer.data)
+
+    def post(self, request, user_id):
+        user = get_object_or_404(User, id=user_id)
 
         is_many = isinstance(request.data, list)
 
