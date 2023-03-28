@@ -7,7 +7,7 @@ class TransactionSerializer(serializers.ModelSerializer):
         fields ="__all__"
         read_only_fields = [
             "id",
-            "seller",
+            "seller_id",
         ]
     def create(self, validated_data):
         return Transaction.objects.create(**validated_data)
