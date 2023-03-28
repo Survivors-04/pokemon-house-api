@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from datetime import timedelta
 from pathlib import Path
+from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-2cd89p&=6kd(i8$19kv=r2i^4=)@elvqf6#0haka0_&d6)ab4@"
+# SECRET_KEY = "django-insecure-2cd89p&=6kd(i8$19kv=r2i^4=)@elvqf6#0haka0_&d6)ab4@"
+SECRET_KEY = "ASDKJASJPIJIASJIPASJPIASJIP"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -130,10 +132,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': True,
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
 }
 
 # Static files (CSS, JavaScript, Images)

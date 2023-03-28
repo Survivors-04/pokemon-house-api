@@ -17,8 +17,9 @@ class PokemonBoosterSerializer(ModelSerializer):
 
 
 class PokemonUserSerializer(ModelSerializer):
-    user = HiddenField(default=CurrentUserDefault())
-
     class Meta:
         model = PokemonUser
+
         fields = "__all__"
+
+        read_only_fields = ["user"]
