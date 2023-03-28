@@ -1,4 +1,5 @@
 from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField
+from django.contrib.auth.hashers import make_password
 
 from users.models import User
 
@@ -30,11 +31,9 @@ class UserSerializer(ModelSerializer):
         return user
 
     def update(self, instance, validated_data):
-        instance.username = validated_data.get("username", instance.username)
-        instance.gold = validated_data.get("gold", instance.gold)
-        instance.dateRoll = validated_data.get("dateRoll", instance.dateRoll)
-        password = validated_data.get("password", None)
-        if password:
-            instance.set_password(password)
-        instance.save()
-        return instance
+        password = validated_data.get("password")
+
+        if password is not None:
+            validated_data["password"] = make_password(password)
+
+        return super().update(instance, validated_data)

@@ -4,7 +4,7 @@ from .models import Transaction
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
-        fields = ["id, buyed_id", "seller_id"]
+        fields ="__all__"
         read_only_fields = [
             "id",
             "seller",
