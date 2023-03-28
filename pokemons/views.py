@@ -1,15 +1,17 @@
 import random
+import jwt
 from decimal import Decimal
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.views import Response, Request, status, APIView
 from pokemons.models import PokemonBooster, PokemonUser, Pokemons
 from rest_framework.permissions import IsAuthenticated
-
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 from pokemons.serializers import PokemonBoosterSerializer, PokemonSerializer, PokemonUserSerializer
+from users.models import User
 
 
 class PokemonListCreateView(ListCreateAPIView):
@@ -37,27 +39,32 @@ class PokemonDetailView(RetrieveAPIView):
 
 
 class PokemonUserListCreateView(ListCreateAPIView):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = PokemonSerializer
+    authentication_classes = [JWTAuthentication]
+    serializer_class = PokemonUserSerializer
     queryset = PokemonUser.objects.all()
 
     def create(self, request, *args, **kwargs):
+        user = self.request.user
+
         is_many = isinstance(request.data, list)
-        request.data['user'] = request.auth.token.user.id
 
         if is_many:
-            serializer = PokemonSerializer(data=request.data, many=True)
+            serializer = PokemonUserSerializer(data=request.data, many=True)
+
             serializer.is_valid(raise_exception=True)
-            serializer.save()
+            serializer.save(user=user)
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        serializer = PokemonSerializer(data=request.data)
+        serializer = PokemonUserSerializer(data=request.data)
+
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer.save(user=user)
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class PokemonUserDetailView(RetrieveAPIView):
+class PokemonUserDetailView(RetrieveUpdateDestroyAPIView):
     serializer_class = PokemonUserSerializer
     queryset = PokemonUser.objects.all()
 
