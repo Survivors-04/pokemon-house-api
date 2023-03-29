@@ -19,5 +19,5 @@ urlpatterns = [
     path("pokemons/users/<uuid:user_id>/", PokemonUserListCreateView.as_view()),
     path("pokemons/<uuid:pk>/users/", PokemonUserDetailView.as_view()),
     path("marketplace/", pokemon_users_on_marketplace),
-    path("marketplace/pokemons/<uuid:pokemon_id>", MarketplaceUpdateDestroy.as_view())
+    path("marketplace/pokemons/<uuid:pokemon_id>/", MarketplaceUpdateDestroy.as_view())
 ]

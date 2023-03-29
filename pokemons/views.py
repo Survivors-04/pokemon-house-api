@@ -144,7 +144,7 @@ def pokemon_users_on_marketplace(request):
 
 
 class MarketplaceUpdateDestroy(APIView):
-    def update(request, pokemon_id):
+    def put(self, request, pokemon_id):
         pokemon_user = PokemonUser.objects.get(id=pokemon_id)
 
         pokemon_user.on_marketplace = True
@@ -154,7 +154,7 @@ class MarketplaceUpdateDestroy(APIView):
 
         return Response(serializer.data)
 
-    def delete(request, pokemon_id):
+    def delete(self, request, pokemon_id):
         pokemon_user = PokemonUser.objects.get(id=pokemon_id)
 
         pokemon_user.on_marketplace = False
