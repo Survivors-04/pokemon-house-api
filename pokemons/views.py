@@ -8,6 +8,7 @@ from rest_framework.views import Response, Request, status, APIView
 from pokemons.models import PokemonBooster, PokemonUser, Pokemons
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.decorators import api_view
 
 
 from pokemons.serializers import PokemonBoosterSerializer, PokemonSerializer, PokemonUserSerializer
@@ -125,6 +126,40 @@ def get_booster(request, booster_id):
 
 
 def get_random_pokemon(rarity):
-    # escolher um pokemon aleatório da raridade escolhida
+    count = Pokemons.objects.filter(rarity=rarity).count()
+    if count == 0:
+        return f"No {rarity} Pokemons available"
+
     pokemon = Pokemons.objects.filter(rarity=rarity).order_by("?").first()
     return pokemon
+
+
+@api_view(["GET"])
+def pokemon_users_on_marketplace(request):
+    pokemon_users = PokemonUser.objects.filter(on_marketplace=True)
+
+    serializer = PokemonUserSerializer(pokemon_users, many=True)
+
+    return Response(serializer.data)
+
+
+class MarketplaceUpdateDestroy(APIView):
+    def update(request, pokemon_id):
+        pokemon_user = PokemonUser.objects.get(id=pokemon_id)
+
+        pokemon_user.on_marketplace = True
+        pokemon_user.save()
+
+        serializer = PokemonUserSerializer(pokemon_user)
+
+        return Response(serializer.data)
+
+    def delete(request, pokemon_id):
+        pokemon_user = PokemonUser.objects.get(id=pokemon_id)
+
+        pokemon_user.on_marketplace = False
+        pokemon_user.save()
+
+        serializer = PokemonUserSerializer(pokemon_user)
+
+        return Response(serializer.data)
