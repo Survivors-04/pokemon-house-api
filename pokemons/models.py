@@ -44,6 +44,7 @@ class Pokemons(models.Model):
 class PokemonUser(Pokemons):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pokemons')
     price = models.IntegerField(default=0)
+    on_marketplace = models.BooleanField(default=False)
 
 class PokemonBooster(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
