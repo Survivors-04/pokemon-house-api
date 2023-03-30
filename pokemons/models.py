@@ -1,4 +1,3 @@
-from decimal import Decimal
 from uuid import uuid4
 from django.db import models
 
@@ -45,11 +44,3 @@ class PokemonUser(Pokemons):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pokemons')
     price = models.IntegerField(default=0)
     on_marketplace = models.BooleanField(default=False)
-
-class PokemonBooster(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    name = models.CharField(max_length=36)
-    common_probability = models.DecimalField(max_digits=5, decimal_places=2)
-    rare_probability = models.DecimalField(max_digits=5, decimal_places=2)
-    epic_probability = models.DecimalField(max_digits=5, decimal_places=2)
-    legendary_probability = models.DecimalField(max_digits=5, decimal_places=2)
